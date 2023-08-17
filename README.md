@@ -56,4 +56,4 @@ You can find this file in the root directory.
 
 ## License
 
-PLACOGAVIKI is released under the [GNU Affero General Public License v3.0](https://choosealicense.com/licenses/agpl-3.0)
+PLACOGAVIKI is released under the [GNU Affero General Public License v3.0](./LICENSE)

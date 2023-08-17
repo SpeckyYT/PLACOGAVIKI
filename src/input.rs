@@ -1,4 +1,5 @@
 const CONCAT_CHARACTER: &str = "+";
+const MAXIMUM_REPEAT: usize = 20;
 
 use std::{future::IntoFuture, collections::VecDeque, sync::{Arc, Mutex}};
 
@@ -57,18 +58,30 @@ macro_rules! inputs_set {
 pub fn parse_input(string: &str) -> VecDeque<Inputs<bool>> {
     string
         .split(char::is_whitespace)
-        .filter_map(|s| {
+        .filter_map(|slice| {
+            let repeat = slice
+                .chars()
+                .take_while(|c| char::is_numeric(*c))
+                .collect::<String>()
+                .parse::<usize>()
+                .unwrap_or(1)
+                .max(1)
+                .min(MAXIMUM_REPEAT);
+
+            let slice = slice.trim_start_matches(char::is_numeric);
+
             let mut inputs = Inputs::default();
-            let count = s.split(CONCAT_CHARACTER)
+            let count = slice.split(CONCAT_CHARACTER)
                 .map(|t| {
                     inputs_set!(inputs; t.to_lowercase().as_str() => true);
                 })
                 .count();
             if count > 0 && inputs != Inputs::default() {
-                Some(inputs)
+                Some(vec![inputs; repeat])
             } else {
                 None
             }
         })
+        .flatten()
         .collect()
 }
