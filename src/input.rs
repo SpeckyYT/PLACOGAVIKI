@@ -56,19 +56,20 @@ macro_rules! inputs_set {
 }
 
 pub fn parse_input(string: &str) -> VecDeque<Inputs<bool>> {
+    let is_digit = char::is_ascii_digit;
+
     string
         .split(char::is_whitespace)
         .filter_map(|slice| {
             let repeat = slice
                 .chars()
-                .take_while(|c| char::is_numeric(*c))
+                .take_while(is_digit)
                 .collect::<String>()
                 .parse::<usize>()
                 .unwrap_or(1)
-                .max(1)
-                .min(MAXIMUM_REPEAT);
+                .clamp(1, MAXIMUM_REPEAT);
 
-            let slice = slice.trim_start_matches(char::is_numeric);
+            let slice = slice.trim_start_matches(|c| is_digit(&c));
 
             let mut inputs = Inputs::default();
             let count = slice.split(CONCAT_CHARACTER)

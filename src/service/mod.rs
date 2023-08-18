@@ -4,6 +4,7 @@ use colored::Colorize;
 
 pub mod discord;
 pub mod kick;
+pub mod youtube;
 
 #[derive(Debug, Clone)]
 pub enum DebugType {

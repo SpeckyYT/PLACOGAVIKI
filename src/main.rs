@@ -26,6 +26,7 @@ async fn main() {
     let mut services: Vec<Box<dyn service::Service>> = vec![
         Box::new(service::kick::Kick::new().await),
         Box::new(service::discord::Discord::new().await),
+        Box::new(service::youtube::Youtube::new().await),
     ];
 
     let stats = Arc::new(Mutex::new(Stats::default()));
